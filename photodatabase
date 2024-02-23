@@ -1,0 +1,48 @@
+    Count the Number of Photos Uploaded by Each User:
+
+
+SELECT user_id, COUNT(*) AS num_photos
+FROM Photos
+GROUP BY user_id;
+
+
+    Retrieve the Latest Uploaded Photos:
+
+
+SELECT *
+FROM Photos
+ORDER BY upload_date DESC
+LIMIT 10; -- or any desired number of recent photos
+
+
+    Find Photos Uploaded Within a Specific Date Range:
+
+SELECT *
+FROM Photos
+WHERE upload_date BETWEEN '2024-01-01' AND '2024-01-31';
+
+
+    List All Tags Associated with a Photo:
+
+SELECT t.tag_name
+FROM Tags t
+INNER JOIN Photo_Tags pt ON t.tag_id = pt.tag_id
+WHERE pt.photo_id = <photo_id>;
+
+
+    Delete a Photo and Its Associated Tags:
+
+DELETE FROM Photos WHERE photo_id = <photo_id>;
+DELETE FROM Photo_Tags WHERE photo_id = <photo_id>;
+
+
+    Retrieve Photos Tagged with Multiple Tags (AND condition):
+
+ SELECT p.*
+FROM Photos p
+INNER JOIN Photo_Tags pt ON p.photo_id = pt.photo_id
+INNER JOIN Tags t ON pt.tag_id = t.tag_id
+WHERE t.tag_name IN ('tag1', 'tag2', 'tag3') -- Add as many tags as needed
+GROUP BY p.photo_id
+HAVING COUNT(DISTINCT t.tag_id) = 3; -- Adjust the count to match the number of tags
+   
